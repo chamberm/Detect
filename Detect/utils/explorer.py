@@ -82,7 +82,7 @@ def plot_profile(df_data, df_demog, tract_profile, metric, plot_controls, plot_p
         ax[idx,0].set_ylabel(metric, size=42)
         ax[idx,0].set_xlabel('Position along tract', size=42)
         ax[idx,0].set_title(hemi.upper()+' '+tract_profile,size=36)
-        ax[idx,0].legend(loc='upper center',fontsize=24, bbox_to_anchor=(0.5, -0.10),
+        ax[idx,0].legend(loc='upper center',fontsize=24, bbox_to_anchor=(0.5, -0.30),
           fancybox=True, shadow=True, ncol=3)  
 
     fig.tight_layout()
