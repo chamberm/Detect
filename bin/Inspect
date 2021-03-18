@@ -1,0 +1,39 @@
+#!/usr/bin/env python
+
+from __future__ import division, print_function, absolute_import
+
+import argparse
+import streamlit as st
+import os
+
+#link to inspect.py to run via streamlit
+script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
+rel_path = "../detect/inspect.py"
+abs_main = os.path.join(script_dir, rel_path)
+
+"""
+# Inspect 
+A deep learning based anomaly detection framework for diffusion MRI Tractometry.
+
+Author: Maxime Chamberland ([chamberm.github.io](https://chamberm.github.io)).
+See the MedRxiv preprint [here](https://www.medrxiv.org/content/10.1101/2021.02.23.21252011v1).
+
+----
+"""
+
+def main():
+    parser = argparse.ArgumentParser(description="Anomaly detection.",
+                                        epilog="Written by Maxime Chamberland.")
+    parser.add_argument("--i", metavar="data_path", dest="data_file",
+                        help="Tract profiles (.xlsx)", required=True)
+    parser.add_argument("--demog", metavar="demog_path", dest="demog_file",
+                        help="file containing demographics (.csv)", required=True)
+    args = parser.parse_args()
+
+    #Simply wrap arround streamlit
+    ###############################
+    os.system("streamlit run " + abs_main + " -- --i " + args.data_file 
+              + " --demog " + args.demog_file)
+
+if __name__ == '__main__':
+    main()
