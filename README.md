@@ -6,8 +6,8 @@ Chamberland, Maxime, Sila Genc, Chantal MW Tax, Dmitri Shastin, Kristin Koller, 
 "Detecting microstructural deviations in individuals with deep diffusion MRI tractometry." medRxiv (2021).
 ```
 # Live demo (Browser)
-* :star2: Click here for [Detect]() (simply hit Run!)
-* :star2: Click here for [Inspect]() (simply hit Run!)
+* :star2: Click here for [Detect](https://share.streamlit.io/chamberm/predeploy/Detect/detect-demo.py) (simply hit Run!)
+* :star2: Click here for [Inspect](https://share.streamlit.io/chamberm/predeploy/Detect/inspect-demo.py) (simply hit Run!)
 
 # Install (to run locally)
 This requires: 
