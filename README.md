@@ -73,6 +73,9 @@ and the along-tract profile figure under *figures/SUBJECT_profile_METRIC.png*.
 
 **Note**: the **examples** directory contains notebooks with code used to generate the results and figures from the paper.
 
+# Disclaimer
+Please note that Detect is for research use only. 
+
 # Author
 Maxime Chamberland [Website](https://chamberm.github.io/)
 
