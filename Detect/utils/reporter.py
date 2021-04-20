@@ -157,10 +157,12 @@ def final_report(AUC, WW, fpr, tpr, method, metric, group, title):
     st.write(WW)
     st.warning("If you see NaNs in the above table, please increase the number of iterations to loop over all subjects.")
     fig, ax = plt.subplots(1,1,figsize=(8, 8))
-    my_pal = {0: "#5b437a", 2: "#f1815f"}
-    my_pal2 = {0: "#2d284b", 2: "#f1815f"}
-    ax = sns.boxplot(x="Group", y="Dist", data=WW, showfliers = False, palette=my_pal, linewidth=2)
-    ax = sns.swarmplot(x="Group", y="Dist", data=WW, color=".25", palette=my_pal2, alpha=0.8, linewidth=1)
+    my_pal = {0: "#5b437a", group: "#f1815f"}
+    my_pal2 = {0: "#2d284b", group: "#f1815f"}
+    dataPlot = WW.loc[(WW['Group'] == 0) | (WW['Group'] == group)]
+    st.write(dataPlot)
+    ax = sns.boxplot(x="Group", y="Dist", data=dataPlot, showfliers = False, palette=my_pal, linewidth=2)
+    ax = sns.swarmplot(x="Group", y="Dist", data=dataPlot, color=".25", palette=my_pal2, alpha=0.8, linewidth=1)
     ax.set_xlabel("Groups",size=28)
     ax.set_ylabel('Distance',size=28)
     ax.set_title(method, size=36)
