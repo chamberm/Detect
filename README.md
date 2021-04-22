@@ -7,7 +7,8 @@ Chamberland, Maxime, Sila Genc, Chantal MW Tax, Dmitri Shastin, Kristin Koller, 
 ```
 # Live demo (Browser)
 * :star2: Click here for [Detect](https://share.streamlit.io/chamberm/detect/Detect/detect-demo.py) (simply hit Run!)
-* :star2: Click here for [Inspect](https://share.streamlit.io/chamberm/detect/Detect/inspect-demo.py) (simply hit Run!)
+* :star2: Click here for [Inspect](https://share.streamlit.io/chamberm/detect/Detect/inspect-demo.py) (simply hit Run!)  
+Note: Streamlit servers may sometimes be overloaded - in this case, try refreshing the page.
 
 # Install (to run locally)
 This requires: 
@@ -23,7 +24,7 @@ python setup.py Detect
 
 or
 
-pip install -r requirements.txt
+pip install -e .
 ```
 # Data format
 The input demographic data that consists of comma-separated values (.csv) where each row represents a subject (ID). Example demographics columns include: group, age, gender or clinical scores. 
