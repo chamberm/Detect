@@ -157,6 +157,7 @@ def run(method, df_data, df_demog, regress, tracts, group, hemi, metric, reps):
         count = count + 1
     
     #Assemble results / Aggregate and plot mean/median distributions 
+    np.seterr(divide='ignore', invalid='ignore')
     DISTS /= countInserts
     WW = pd.DataFrame()
     WW['ID'] = X['ID']

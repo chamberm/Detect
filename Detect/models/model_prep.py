@@ -1,4 +1,6 @@
 from __future__ import division, print_function, absolute_import
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 import numpy as np
 import streamlit as st
@@ -10,6 +12,9 @@ from sklearn.model_selection import train_test_split
 from sklearn import linear_model
 from sklearn.preprocessing import  StandardScaler, MinMaxScaler, MaxAbsScaler, RobustScaler
 from models import Zscore, PCA, autoencoder
+
+from matplotlib.backends.backend_agg import RendererAgg
+_lock = RendererAgg.lock
 
 class Model:
     def __init__(self, X_train, X_test, modeltype):
@@ -35,23 +40,24 @@ class Model:
         return autoencoder.run_once(self)
 
 def plotDistribution(d_train, xlim, ylim, label, method):
-    fig, ax = plt.subplots(figsize=(12, 8))
-    plt.title(method,size=46)
-    sns.distplot(d_train,
-                     bins = 10, 
-                     kde= True,
-                     norm_hist=True,
-                     color = 'xkcd:purply',
-                     kde_kws={"color": "xkcd:purply", "lw": 4});
-    ax.set_xlim(xlim)
-    ax.set_ylim(ylim)
-    ax.set_xlabel(label,size=36)
-    ax.set_ylabel("Density estimate",size=36)
-    ax.tick_params(labelsize=24)
-    fig.tight_layout()
-    fig.savefig('figures/'+method+'_distribution.png', dpi=200)
-    st.write(fig)
-    plt.close(fig)   
+    with _lock:    
+        fig, ax = plt.subplots(figsize=(12, 8))
+        plt.title(method,size=46)
+        sns.distplot(d_train,
+                         bins = 10, 
+                         kde= True,
+                         norm_hist=True,
+                         color = 'xkcd:purply',
+                         kde_kws={"color": "xkcd:purply", "lw": 4});
+        ax.set_xlim(xlim)
+        ax.set_ylim(ylim)
+        ax.set_xlabel(label,size=36)
+        ax.set_ylabel("Density estimate",size=36)
+        ax.tick_params(labelsize=24)
+        fig.tight_layout()
+        fig.savefig('figures/'+method+'_distribution.png', dpi=200)
+        st.write(fig)
+        plt.close(fig)   
     
 def evaluate(d_train, d_test, y_HC, y_PAT, method):
     anomaly = pd.DataFrame()
@@ -79,27 +85,28 @@ def evaluate(d_train, d_test, y_HC, y_PAT, method):
         
     plotDistribution(d_train, xlim, ylimDist, label, method)
     
-    fig, ax = plt.subplots(1,1,figsize=(12, 8))
-    ax.set_ylim(ylimError)
-    ax.set_xlim((-1,len(d_test)))
-    ax.set_xlabel("Individuals",size=28)
-    ax.set_ylabel(label,size=28)
-    ax.tick_params(labelsize=24)
-    #ax.set_yticks(np.arange(0, ylimDist[1], step=0.25))
-    #ax.set_yticks(np.arange(0, ylimDist[1], step=0.25))
-    ax.set_title(method, size=36)
+    with _lock:
+        fig, ax = plt.subplots(1,1,figsize=(12, 8))
+        ax.set_ylim(ylimError)
+        ax.set_xlim((-1,len(d_test)))
+        ax.set_xlabel("Individuals",size=28)
+        ax.set_ylabel(label,size=28)
+        ax.tick_params(labelsize=24)
+        #ax.set_yticks(np.arange(0, ylimDist[1], step=0.25))
+        #ax.set_yticks(np.arange(0, ylimDist[1], step=0.25))
+        ax.set_title(method, size=36)
 
-    rangeHC = np.arange(0,len(anomaly.loc[anomaly['Group'] == 0]))
-    rangeAnom = np.arange(len(rangeHC),len(rangeHC)+len(anomaly.loc[anomaly['Group'] != 0]['Dist']))
+        rangeHC = np.arange(0,len(anomaly.loc[anomaly['Group'] == 0]))
+        rangeAnom = np.arange(len(rangeHC),len(rangeHC)+len(anomaly.loc[anomaly['Group'] != 0]['Dist']))
 
-    st.write("Group size:", len(rangeAnom), "controls, ", len(anomaly.loc[anomaly['Group'] != 0]['Dist']) ,"patients")
-    ax.bar(rangeHC,anomaly.loc[anomaly['Group'] == 0]['Dist'], color='forestgreen', alpha=1, edgecolor="white", width=1.0, label="Controls")
-    ax.bar(rangeAnom,anomaly.loc[anomaly['Group'] != 0]['Dist'], color='xkcd:eggplant purple', alpha=1, edgecolor="white", width=1.0,label="Patients")
-    ax.legend(fontsize=24, loc='upper right')
-    
-    fig.tight_layout()
-    st.write(fig)
-    plt.close(fig)
+        st.write("Group size:", len(rangeAnom), "controls, ", len(anomaly.loc[anomaly['Group'] != 0]['Dist']) ,"patients")
+        ax.bar(rangeHC,anomaly.loc[anomaly['Group'] == 0]['Dist'], color='forestgreen', alpha=1, edgecolor="white", width=1.0, label="Controls")
+        ax.bar(rangeAnom,anomaly.loc[anomaly['Group'] != 0]['Dist'], color='xkcd:eggplant purple', alpha=1, edgecolor="white", width=1.0,label="Patients")
+        ax.legend(fontsize=24, loc='upper right')
+
+        fig.tight_layout()
+        st.write(fig)
+        plt.close(fig)
     
     return anomaly
            

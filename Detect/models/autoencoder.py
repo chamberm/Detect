@@ -1,4 +1,8 @@
 from __future__ import division, print_function, absolute_import
+
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
+
 import tensorflow as tf
 import keras
 from keras.models import Model, load_model
@@ -14,26 +18,31 @@ import pandas as pd
 import datetime
 import seaborn as sns
 
+from matplotlib.backends.backend_agg import RendererAgg
+_lock = RendererAgg.lock
+
 def save(model):
     pass
 
 def plot_loss(model_history):
     train_loss=[value for key, value in model_history.items() if 'loss' in key.lower()][0]
     valid_loss=[value for key, value in model_history.items() if 'loss' in key.lower()][1]
-    fig, ax1 = plt.subplots(figsize=(10, 6))
-    color = 'xkcd:purply'
-    ax1.set_xlabel('Epoch',size=42)
-    ax1.set_ylabel('Loss', color="black",size=42)
-    ax1.plot(train_loss, '--', color="black", label='Train Loss',linewidth=4)
-    ax1.plot(valid_loss, color=color, label='Test Loss',linewidth=4)
-    ax1.tick_params(axis='y', labelcolor="black")
-    plt.legend(loc='upper right',fontsize=28)
-    plt.title('Model Loss',size=48)
-    ax1.tick_params(labelsize=32)
-    fig.tight_layout()
-    #fig.savefig('figures/AE_loss.png', dpi=200)
-    st.write(fig)
-    plt.close(fig)
+    
+    with _lock:
+        fig, ax1 = plt.subplots(figsize=(10, 6))
+        color = 'xkcd:purply'
+        ax1.set_xlabel('Epoch',size=42)
+        ax1.set_ylabel('Loss', color="black",size=42)
+        ax1.plot(train_loss, '--', color="black", label='Train Loss',linewidth=4)
+        ax1.plot(valid_loss, color=color, label='Test Loss',linewidth=4)
+        ax1.tick_params(axis='y', labelcolor="black")
+        plt.legend(loc='upper right',fontsize=28)
+        plt.title('Model Loss',size=48)
+        ax1.tick_params(labelsize=32)
+        fig.tight_layout()
+        #fig.savefig('figures/AE_loss.png', dpi=200)
+        st.write(fig)
+        plt.close(fig)
 
 def fit(autoencoder, X_train, epochs, size):
     ##################
