@@ -8,7 +8,7 @@ import os
 
 #link to inspect.py to run via streamlit
 script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
-rel_path = "../detect/relate.py"
+rel_path = "../Detect/relate.py"
 abs_main = os.path.join(script_dir, rel_path)
 
 """
