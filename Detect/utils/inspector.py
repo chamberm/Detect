@@ -103,10 +103,11 @@ def run(subject, df_data, df_demog, regress, tracts, hemi, metric):
     overall_p = count/p_div
     p_crit = p/p_div
     p_along = np.zeros(len(p_crit))
-    #st.write(p_div)
+
+    max_p =  max(0.01,1/p_div)
     for i in range(len(p_crit)):
-        if(p_crit[i] <= max(0.05,1/p_div)):
-            #st.write(p_crit[i])
+        if p_crit[i] <= max_p:
             p_along[i] = 1
+                
     #K could be Zscore.
     return x_inv, x_hat_inv, mae, p_along, overall_p, p_div

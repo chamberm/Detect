@@ -172,8 +172,8 @@ def final_report(AUC, WW, fpr, tpr, method, metric, group, title):
         my_pal2 = {0: "#2d284b", group: "#f1815f"}
         dataPlot = WW.loc[(WW['Group'] == 0) | (WW['Group'] == group)]
         st.write(dataPlot)
-        ax = sns.boxplot(x="Group", y="Dist", data=dataPlot, showfliers = False, palette=my_pal, linewidth=2)
-        ax = sns.swarmplot(x="Group", y="Dist", data=dataPlot, color=".25", palette=my_pal2, alpha=0.8, linewidth=1)
+        ax = sns.boxplot(x="Group", y="Scaled dist.", data=dataPlot, showfliers = False, palette=my_pal, linewidth=2)
+        ax = sns.swarmplot(x="Group", y="Scaled dist.", data=dataPlot, color=".25", palette=my_pal2, alpha=0.8, linewidth=1)
         ax.set_xlabel("Groups",size=28)
         ax.set_ylabel('Distance',size=28)
         ax.set_title(method, size=36)
@@ -217,19 +217,21 @@ def write_pval(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, group,
     return dfpval, dfvector
     
 def filterSpurious(p_along):
-    for i in range(len(p_along)-1):
+    p_along_binary = np.zeros(len(p_along))
+    for i in range(len(p_along)):
         if i == 0:
-            if (p_along[i] == 1 and p_along[i+1] == 0):
-                p_along[i] = 0
-        elif i == (len(p_along)-1):
-            if (p_along[i] == 1 and p_along[i-1] == 0):
-                p_along[i] = 0
-        elif (p_along[i] == 1 and p_along[i+1] == 0 and p_along[i-1] == 0):
-            p_along[i] = 0
-    return p_along
+            if (p_along[i] > 0 and p_along[i+1] > 0):
+                p_along_binary[i] = 1
+        elif i == len(p_along)-1:
+            if (p_along[i] > 0 and p_along[i-1] > 0):
+                p_along_binary[i] = 1
+        elif ((p_along[i] > 0 and p_along[i-1] > 0) or (p_along[i] > 0 and p_along[i+1] > 0)):
+                p_along_binary[i] = 1
+            
+    return p_along_binary
     
 def plot_features(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, group, title, cols, once):
-    st.success("Mean Absolute Error (MAE): " + str(np.round(np.mean(mae), 3)))
+    st.success("Mean Absolute Error (MAE, unscaled): " + str(np.round(np.mean(mae), 3)))
 
     if (p_overall < max(0.01, (1/p_div))):
         st.success("p < "+str(np.round(1/p_div,3)))
@@ -244,10 +246,10 @@ def plot_features(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, gro
         ax.plot(x_hat[0],color='#6a1596',label='Reconstructed',linewidth=4, linestyle="dashed", alpha=0.8)
         ax.plot(x[0],color='xkcd:burnt orange',label='Original',linewidth=4)
 
-        p_along = filterSpurious(p_along)
+        p_along_binary = filterSpurious(p_along)
 
-        ax.step(np.arange(0,len(p_along)), p_along*1.8*np.mean(x_hat), color="#b43486", linewidth=2, linestyle="dotted", alpha=0.5)
-        ax.fill_between(np.arange(0,len(p_along)),np.zeros(len(p_along)),p_along*1.8*np.mean(x_hat), alpha=0.1, 
+        ax.step(np.arange(0,len(p_along_binary)), p_along_binary*1.8*np.mean(x_hat), color="#b43486", linewidth=2, linestyle="dotted", alpha=0.5)
+        ax.fill_between(np.arange(0,len(p_along_binary)),np.zeros(len(p_along_binary)),p_along_binary*1.8*np.mean(x_hat), alpha=0.1, 
                         edgecolor='#b43486', facecolor='#b43486', step="pre", label="Anomaly")
 
         ax.set_xlim((0,x_hat.shape[1]))
