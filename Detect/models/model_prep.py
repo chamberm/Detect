@@ -74,9 +74,9 @@ def evaluate(d_train, d_test, y_HC, y_PAT, method):
         ylimError = [0,2]
     elif(method == "PCA"):
         label = 'Mahalanobis distance (M)'
-        xlim = [0.0,6]
+        xlim = [0.0,10]
         ylimDist = [0.0,1]
-        ylimError = [0,3.5]
+        ylimError = [0,10]
     else:
         label = 'Mean absolute error (MAE)'
         xlim = [0.05,0.25]

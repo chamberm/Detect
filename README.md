@@ -20,10 +20,11 @@ This requires:
 as well as plotting libraries described in the requirements.txt file. Run:
 ```
 git clone https://github.com/chamberm/Detect
-python setup.py Detect
+cd Detect
 
-or
-
+#Create a new environment
+conda create --name Detect python=3.7
+pip install -r requirements.txt
 pip install -e .
 ```
 # Data format

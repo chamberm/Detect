@@ -40,7 +40,7 @@ def plot_loss(model_history):
         plt.title('Model Loss',size=48)
         ax1.tick_params(labelsize=32)
         fig.tight_layout()
-        #fig.savefig('figures/AE_loss.png', dpi=200)
+        fig.savefig('figures/AE_loss.png', dpi=200)
         st.write(fig)
         plt.close(fig)
 
@@ -63,7 +63,7 @@ def fit(autoencoder, X_train, epochs, size):
     #print('Time to run the model: {} Sec.'.format((t_fin - t_ini).total_seconds()))
 
     df_history = pd.DataFrame(history.history)
-    #plot_loss(df_history)
+    plot_loss(df_history)
     
 def create_model(model, lr, acts):
     backend.clear_session()
@@ -75,7 +75,7 @@ def create_model(model, lr, acts):
 
     input_layer = Input(shape=(input_dim, ))
     encoder = Dense(int(encoding_dim), activation='relu')(input_layer)
-    encoder = Dense(int(encoding_dim/2), activation='relu', activity_regularizer=regularizers.l2(10e-5))(encoder) 
+    encoder = Dense(int(encoding_dim/2), activation='relu')(encoder) #, activity_regularizer=regularizers.l2(10e-5)
     decoder = Dense(int(encoding_dim), activation='relu')(encoder)
     decoder = Dense(input_dim, activation=acts)(decoder)
     

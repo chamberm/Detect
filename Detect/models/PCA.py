@@ -57,9 +57,13 @@ def is_pos_def(A):
 def run(model):
     X_train = model.get_train()
     X_test = model.get_test()
-    pca = PCA(n_components=3, svd_solver= 'full')
+    pca = PCA(0.85, svd_solver= 'full')
+    
     X_train_PCA = pca.fit_transform(X_train)
     X_test_PCA = pca.transform(X_test)
+    #fig, ax = plt.subplots(1,1,figsize=(12, 8))
+    #ax.plot(np.cumsum(pca.explained_variance_ratio_))
+    st.write("Explained variance:", pca.explained_variance_ratio_)
     
     X_train_PCA = pd.DataFrame(X_train_PCA)
     X_train_PCA.index = X_train.index

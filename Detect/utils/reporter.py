@@ -172,10 +172,10 @@ def final_report(AUC, WW, fpr, tpr, method, metric, group, title):
         my_pal2 = {0: "#2d284b", group: "#f1815f"}
         dataPlot = WW.loc[(WW['Group'] == 0) | (WW['Group'] == group)]
         st.write(dataPlot)
-        ax = sns.boxplot(x="Group", y="Scaled dist.", data=dataPlot, showfliers = False, palette=my_pal, linewidth=2)
-        ax = sns.swarmplot(x="Group", y="Scaled dist.", data=dataPlot, color=".25", palette=my_pal2, alpha=0.8, linewidth=1)
+        ax = sns.boxplot(x="Group", y="Dist", data=dataPlot, showfliers = False, palette=my_pal, linewidth=2)
+        ax = sns.swarmplot(x="Group", y="Dist", data=dataPlot, color=".25", palette=my_pal2, alpha=0.8, linewidth=1)
         ax.set_xlabel("Groups",size=28)
-        ax.set_ylabel('Distance',size=28)
+        ax.set_ylabel('Scaled distance',size=28)
         ax.set_title(method, size=36)
 
         ax.tick_params(axis='y',labelsize=24)
