@@ -24,6 +24,7 @@ cd Detect
 
 #Create a new environment
 conda create --name Detect python=3.7
+conda activate Detect *OR* source activate Detect
 pip install -r requirements.txt
 pip install -e .
 ```
