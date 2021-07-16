@@ -2,6 +2,9 @@ tests/*.csv
 tests/*.xlsx
 figures/*.png
 examples/*.png
+examples/*.svg
+examples/*.eps
+examples/*.pdf
 examples/AUC-orig.ipynb
 examples/hist-orig.ipynb
 examples/data_augment.ipynb
