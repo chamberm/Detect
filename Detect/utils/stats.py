@@ -45,7 +45,7 @@ def correlate(method, df_demog, df_data, y_axis, savename, filename):
         g.fig.text(0.65, 0.22,r+ str(r_value)+'\np = '+str(p_value), fontsize=16) #add text
         #g.fig.text(0.44, 0.80,"Group", fontsize=22) #add text
         plt.tight_layout()
-        g.savefig('figures/'+y_axis+'_'+savename+'.png', dpi=200)
+        g.savefig('figures/'+y_axis+'_'+savename+'.svg', dpi=200)
         st.write(g.fig)
         plt.close(fig)
 

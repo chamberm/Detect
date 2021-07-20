@@ -93,7 +93,7 @@ def plot_profile(df_data, df_demog, tract_profile, metric, plot_controls, plot_p
               fancybox=True, shadow=True, ncol=3)  
 
         fig.tight_layout()
-        fig.savefig('figures/'+metric+'_'+tract_profile+'_profile.png', dpi=200)
+        fig.savefig('figures/'+metric+'_'+tract_profile+'_profile.svg', dpi=200)
         plt.close(fig)
 
     return fig

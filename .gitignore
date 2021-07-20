@@ -1,6 +1,7 @@
 tests/*.csv
 tests/*.xlsx
 figures/*.png
+figures/*.svg
 examples/*.png
 examples/*.svg
 examples/*.eps

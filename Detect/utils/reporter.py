@@ -268,7 +268,7 @@ def plot_features(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, gro
         sns.despine()
 
         fig.tight_layout()
-        fig.savefig('figures/'+subject+'_profile_'+metric+'.png', dpi=200)
+        fig.savefig('figures/'+subject+'_profile_'+metric+'.svg', dpi=200)
         st.pyplot(plt)
 
         dfpval, dfvector = write_pval(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, group, title, cols, once)
