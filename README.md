@@ -1,10 +1,9 @@
 ![Detect](https://github.com/chamberm/Detect/blob/master/ressources/banner2.png)
 [![DOI](https://zenodo.org/badge/227851501.svg)](https://zenodo.org/badge/latestdoi/227851501)
 # Detect
-A browser-based anomaly detection framework for diffusion MRI using Tractometry. This repository contains the scripts used in [Chamberland et al. 2021](https://www.medrxiv.org/content/10.1101/2021.02.23.21252011v1). If using, please cite the following:
+A browser-based anomaly detection framework for diffusion MRI using Tractometry. This repository contains the scripts used in [Chamberland et al. 2021](https://www.nature.com/articles/s43588-021-00126-8). If using, please cite the following:
 ```
-Chamberland, Maxime, Sila Genc, Chantal MW Tax, Dmitri Shastin, Kristin Koller, Erika P. Raven, Greg D. Parker, Khalid Hamandi, William P. Gray, and Derek K. Jones. 
-"Detecting microstructural deviations in individuals with deep diffusion MRI tractometry." medRxiv (2021).
+Chamberland, M., Genc, S., Tax, C.M.W. et al. Detecting microstructural deviations in individuals with deep diffusion MRI tractometry. Nat Comput Sci 1, 598–606 (2021). https://doi.org/10.1038/s43588-021-00126-8
 ```
 # Live demo (Browser)
 * :star2: Click here for [Detect](https://share.streamlit.io/chamberm/detect/Detect/detect-demo.py) (simply hit Run!)
