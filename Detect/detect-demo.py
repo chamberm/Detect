@@ -26,7 +26,7 @@ st.image(image,use_column_width=True)
 A deep learning based anomaly detection framework for diffusion MRI Tractometry.
 
 Author: Maxime Chamberland ([chamberm.github.io](https://chamberm.github.io)).
-See the MedRxiv preprint [here](https://www.medrxiv.org/content/10.1101/2021.02.23.21252011v1) 
+See the paper [here](https://www.nature.com/articles/s43588-021-00126-8). 
 
 ----
 """
