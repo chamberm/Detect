@@ -34,11 +34,11 @@ See the paper [here](https://www.nature.com/articles/s43588-021-00126-8).
 def main():
     #Load datasheets
     #############################################
-    rel_path = "../ressources/demogB.csv"
+    rel_path = "../ressources/demog-short.csv"
     demog = join(script_dir, rel_path)
     df_demog = loader.load_csv(demog)
     
-    rel_path = "../ressources/featuresB.xlsx"
+    rel_path = "../ressources/features-short.xlsx"
     features = join(script_dir, rel_path)
     datasheet = loader.load_data(features)
 
@@ -157,11 +157,11 @@ def main():
             finalpval.append(dfpval)
             finalvector.append(dfvector)   
             once = False
-            
+        
         name = 'tests/p-val'+'_'+metric+'_'+title+'.csv'
         st.markdown(reporter.get_csv_link(finalpval,name), unsafe_allow_html=True)
-        #name = 'tests/anomaly-vector'+'_'+metric+'_'+title+'.csv'
-        #st.markdown(reporter.get_csv_link(finalvector,name), unsafe_allow_html=True)
+        name = 'tests/reconstructed-features'+'_'+metric+'_'+title+'.csv'
+        st.markdown(reporter.get_csv_link_to_xhat(finalvector,name), unsafe_allow_html=True)
             
     #if st.sidebar.button("Save report"):
         #reporter.save(x_hat)

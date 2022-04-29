@@ -27,7 +27,19 @@ def get_csv_link(df, name):
     b64 = base64.b64encode(
         csv.encode()
     ).decode()  # some strings <-> bytes conversions necessary here
-    return f'<a href="data:file/csv;base64,{b64}" download="{name}"><input type="button" value="Download anomaly scores"></a>'
+    return f'<a href="data:file/csv;base64,{b64}" download="{name}"><input type="button" value="Download global anomaly scores"></a>'
+
+def get_csv_link_to_xhat(df, name):
+    """Generates a link allowing the data in a given panda dataframe to be downloaded
+    in:  dataframe
+    out: href string
+    """
+    df.to_csv(name)
+    csv = df.to_csv()
+    b64 = base64.b64encode(
+        csv.encode()
+    ).decode()  # some strings <-> bytes conversions necessary here
+    return f'<a href="data:file/csv;base64,{b64}" download="{name}"><input type="button" value="Download reconstructed features"></a>'
 
 def get_txt_link(df, name):
     """Generates a link allowing the data in a given panda dataframe to be downloaded
@@ -208,7 +220,10 @@ def write_pval(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, group,
 
     p_along = np.insert(p_along, 0, 0, axis=0)
     p_along = np.insert(p_along, 0, 0, axis=0)
-    dfvector = pd.DataFrame([p_along], index=[0], columns=cols)
+    x_hat =  np.insert(x_hat, 0, 0, axis=1)
+    x_hat =  np.insert(x_hat, 0, 0, axis=1)
+
+    dfvector = pd.DataFrame(x_hat.tolist(), index=[0], columns=cols) #replace with [p_along] for binary results
     dfvector['ID'] = subject
     dfvector['Group'] = group.iloc[0]
 

@@ -138,6 +138,7 @@ def main():
     result = "No results to display."
     finalpval = pd.DataFrame()
     finalvector = pd.DataFrame()
+    finalrecons= pd.DataFrame()
     if st.sidebar.button("Run"):
         
         once = True
@@ -157,13 +158,13 @@ def main():
                 finalvector = dfvector
                 
             finalpval.append(dfpval)
-            finalvector.append(dfvector)   
+            finalvector.append(dfvector)
             once = False
             
         name = 'tests/p-val'+'_'+metric+'_'+title+'.csv'
         st.markdown(reporter.get_csv_link(finalpval,name), unsafe_allow_html=True)
-        #name = 'tests/anomaly-vector'+'_'+metric+'_'+title+'.csv'
-        #st.markdown(reporter.get_csv_link(finalvector,name), unsafe_allow_html=True)
+        name = 'tests/reconstructed-features'+'_'+metric+'_'+title+'.csv'
+        st.markdown(reporter.get_csv_link_to_xhat(finalvector,name), unsafe_allow_html=True)
             
     #if st.sidebar.button("Save report"):
         #reporter.save(x_hat)
