@@ -27,7 +27,7 @@ setup(name='Detect',
             'pandas>=0.25.3',
             'xlrd==1.2.0',
             'seaborn==0.9.0',
-            'tensorflow==2.4.1',
+            'tensorflow==2.7.2',
             'keras==2.4.3'
         ],
         zip_safe=False,
