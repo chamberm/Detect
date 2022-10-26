@@ -43,14 +43,15 @@ def run(subject, df_data, df_demog, regress, tracts, hemi, metric):
     
     X_train_split, y_train_split, X_test_split, y_test_split = getSubject(HC, y_HC, X, subject, False)
     
+    scaler, X_train_split, X_test_split = model_prep.normalize_features(X_train_split, X_test_split, "void")
     #3 Linear regression of confound
     if(regress):
         if'sex' in df_demog and 'age' in df_demog:
-            X_train_split, X_test_split = model_prep.regress_confound(X_train_split, X_test_split, df_demog)
+            X_train, X_test = model_prep.regress_confound(X_train_split, X_test_split, df_demog)
         else:
             st.error("No age or sex information found. Skipping regression step.")
         
-    scaler, X_train, X_test = model_prep.normalize_features(X_train_split, X_test_split, "void")
+    
 
     #6 Run 
     #Run once to get Kreal whch is x_hat - x. 
@@ -71,11 +72,13 @@ def run(subject, df_data, df_demog, regress, tracts, hemi, metric):
         st.write("Computing permutations (LOOCV) with", s)
         X_train_split, y_train_split, X_test_split, y_test_split = getSubject(HC, y_HC, X, s, subject, True)
         
+        scaler, X_train_split, X_test_split = model_prep.normalize_features(X_train_split, X_test_split, "void")
+        
         if(regress):
             if'sex' in df_demog and 'age' in df_demog:
-                X_train_split, X_test_split = model_prep.regress_confound(X_train_split, X_test_split, df_demog)
+                X_train, X_test = model_prep.regress_confound(X_train_split, X_test_split, df_demog)
         
-        scaler, X_train, X_test = model_prep.normalize_features(X_train_split, X_test_split, "void")
+        
 
         #6 Run 
         model = Model(X_train, X_test, "Autoencoder")

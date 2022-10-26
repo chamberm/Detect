@@ -126,12 +126,12 @@ def main():
     st.write("Using the following tracts: ", ", ".join(tract_profile))
     
     LOOCV = False
-    #if st.sidebar.checkbox('Run all subjects?',False):
-        #LOOCV = not LOOCV
+    if st.sidebar.checkbox('Run all subjects?',False):
+        LOOCV = not LOOCV
     
     pop = [subject]
-    #if LOOCV:
-        #pop = subjs_ids
+    if LOOCV:
+        pop = subjs_ids
         
     #Analysis section
     #############################################
@@ -143,28 +143,33 @@ def main():
         
         once = True
         for s in pop:
-            x, x_hat, mae, p_along, p_overall, p_div = inspector.run(s, df_data, df_demog, regress, tract_profile, hemi, metric)
             cur_group = df_demog.loc[df_data['ID'] == s, 'Group']
-            #Report section
-            #############################################
-            st.header("3. Report section")
-            X = df_data.loc[:, df_data.columns.str.startswith('Group') | 
-                df_data.columns.str.startswith('ID') |
-                df_data.columns.str.contains('|'.join(tract_profile))]
-            dfpval, dfvector = reporter.plot_features(x, x_hat, mae, p_along, p_overall, p_div, s, metric, cur_group, title, X.columns, once)
-            
-            if once:
-                finalpval = dfpval
-                finalvector = dfvector
+            st.write("Current subject: ", s, "Group: ", cur_group.iloc[0])
+            if(cur_group.iloc[0] != 0):
+                x, x_hat, mae, p_along, p_overall, p_div = inspector.run(s, df_data, df_demog, regress, tract_profile, hemi, metric)
                 
-            finalpval.append(dfpval)
-            finalvector.append(dfvector)
-            once = False
+                #Report section
+                #############################################
+                st.header("3. Report section")
+                X = df_data.loc[:, df_data.columns.str.startswith('Group') | 
+                    df_data.columns.str.startswith('ID') |
+                    df_data.columns.str.contains('|'.join(tract_profile))]
+                dfpval, dfvector = reporter.plot_features(x, x_hat, mae, p_along, p_overall, p_div, s, metric, cur_group, title, X.columns, once)
+
+                if once:
+                    finalpval = dfpval
+                    finalvector = dfvector
+
+                finalpval.append(dfpval)
+                finalvector.append(dfvector)
+                once = False
             
         name = 'tests/p-val'+'_'+metric+'_'+title+'.csv'
         st.markdown(reporter.get_csv_link(finalpval,name), unsafe_allow_html=True)
         name = 'tests/reconstructed-features'+'_'+metric+'_'+title+'.csv'
         st.markdown(reporter.get_csv_link_to_xhat(finalvector,name), unsafe_allow_html=True)
+
+        st.write("Note: the above download buttons only provide single subject results. For the Run All options, see anomaly* file located in the tests folder.")
             
     #if st.sidebar.button("Save report"):
         #reporter.save(x_hat)

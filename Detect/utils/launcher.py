@@ -124,17 +124,19 @@ def run(method, df_data, df_demog, regress, tracts, group, hemi, metric, reps):
         X_train_split = X_train_split.drop(['Group', 'ID'], axis=1)
         X_test_split = X_test_split.drop(['Group', 'ID'], axis=1)
         
+        
+        #4 Normalize features
+        if method != "Z-score":
+            scaler, X_train_split, X_test_split = model_prep.normalize_features(X_train_split, X_test_split, method)
+        else:
+            X_train_split, X_test_split = X_train_split, X_test_split
+            
+            
         #3 Linear regression of confound
         if(regress):
             if'sex' in df_demog and 'age' in df_demog:
-                X_train_split, X_test_split = model_prep.regress_confound(X_train_split, 
+                X_train, X_test = model_prep.regress_confound(X_train_split, 
                                                        X_test_split, df_demog)
-            
-        #4 Normalize features
-        if method != "Z-score":
-            scaler, X_train, X_test = model_prep.normalize_features(X_train_split, X_test_split, method)
-        else:
-            X_train, X_test = X_train_split, X_test_split
     
         #5 Anomaly detection method
         if method == "Z-score":

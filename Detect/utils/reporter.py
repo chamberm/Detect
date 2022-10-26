@@ -41,6 +41,18 @@ def get_csv_link_to_xhat(df, name):
     ).decode()  # some strings <-> bytes conversions necessary here
     return f'<a href="data:file/csv;base64,{b64}" download="{name}"><input type="button" value="Download reconstructed features"></a>'
 
+def get_csv_link_to_anomaly(df, name):
+    """Generates a link allowing the data in a given panda dataframe to be downloaded
+    in:  dataframe
+    out: href string
+    """
+    df.to_csv(name)
+    csv = df.to_csv()
+    b64 = base64.b64encode(
+        csv.encode()
+    ).decode()  # some strings <-> bytes conversions necessary here
+    return f'<a href="data:file/csv;base64,{b64}" download="{name}"><input type="button" value="Download all anomalies"></a>'
+
 def get_txt_link(df, name):
     """Generates a link allowing the data in a given panda dataframe to be downloaded
     in:  dataframe
@@ -223,7 +235,7 @@ def write_pval(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, group,
     x_hat =  np.insert(x_hat, 0, 0, axis=1)
     x_hat =  np.insert(x_hat, 0, 0, axis=1)
 
-    dfvector = pd.DataFrame(x_hat.tolist(), index=[0], columns=cols) #replace with [p_along] for binary results
+    dfvector = pd.DataFrame([p_along], index=[0], columns=cols) #replace with [p_along] for binary results
     dfvector['ID'] = subject
     dfvector['Group'] = group.iloc[0]
 
@@ -268,7 +280,7 @@ def plot_features(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, gro
                         edgecolor='#b43486', facecolor='#b43486', step="pre", label="Anomaly")
 
         ax.set_xlim((0,x_hat.shape[1]))
-        ax.set_ylim((0,2*np.mean(x_hat)))
+        ax.set_ylim((0,3*np.mean(x_hat)))
         ax.set_xlabel('Features',size=42)
         ax.set_ylabel(metric,size=42)
         ax.set_title(subject, size=48)
