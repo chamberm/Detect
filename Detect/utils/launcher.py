@@ -135,16 +135,16 @@ def run(method, df_data, df_demog, regress, tracts, group, hemi, metric, reps):
         #3 Linear regression of confound
         if(regress):
             if'sex' in df_demog and 'age' in df_demog:
-                X_train, X_test = model_prep.regress_confound(X_train_split, 
+                X_train_split, X_test_split = model_prep.regress_confound(X_train_split, 
                                                        X_test_split, df_demog)
     
         #5 Anomaly detection method
         if method == "Z-score":
-            model = Model(X_train, X_test, "Z-score")
+            model = Model(X_train_split, X_test_split, "Z-score")
         elif method == "PCA":
-            model = Model(X_train, X_test, "PCA")
+            model = Model(X_train_split, X_test_split, "PCA")
         else:
-            model = Model(X_train, X_test, "Autoencoder")
+            model = Model(X_train_split, X_test_split, "Autoencoder")
 
         #6 Run 
         d_train, d_test = model.run()

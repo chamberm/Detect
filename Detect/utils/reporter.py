@@ -246,14 +246,16 @@ def write_pval(x, x_hat, mae, p_along, p_overall, p_div, subject, metric, group,
 def filterSpurious(p_along):
     p_along_binary = np.zeros(len(p_along))
     for i in range(len(p_along)):
-        if i == 0:
-            if (p_along[i] > 0 and p_along[i+1] > 0):
-                p_along_binary[i] = 1
-        elif i == len(p_along)-1:
-            if (p_along[i] > 0 and p_along[i-1] > 0):
-                p_along_binary[i] = 1
-        elif ((p_along[i] > 0 and p_along[i-1] > 0) or (p_along[i] > 0 and p_along[i+1] > 0)):
-                p_along_binary[i] = 1
+        if (p_along[i] > 0):
+            p_along_binary[i] = 1
+        #if i == 0:
+            #if (p_along[i] > 0 and p_along[i+1] > 0):
+                #p_along_binary[i] = 1
+        #elif i == len(p_along)-1:
+            #if (p_along[i] > 0 and p_along[i-1] > 0):
+                #p_along_binary[i] = 1
+        #elif ((p_along[i] > 0 and p_along[i-1] > 0) or (p_along[i] > 0 and p_along[i+1] > 0)):
+                #p_along_binary[i] = 1
             
     return p_along_binary
     

@@ -63,7 +63,7 @@ def fit(autoencoder, X_train, epochs, size):
     #print('Time to run the model: {} Sec.'.format((t_fin - t_ini).total_seconds()))
 
     df_history = pd.DataFrame(history.history)
-    plot_loss(df_history)
+    #plot_loss(df_history)
     
 def create_model(model, lr, acts):
     backend.clear_session()
