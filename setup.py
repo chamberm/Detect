@@ -12,7 +12,7 @@ setup(name='Detect',
         url='https://github.com/chamberm/Detect',
         author='Maxime Chamberland',
         author_email='m.chamberland@tue.nl',
-        python_requires='>=3.5',
+        python_requires='>=3.7',
         license='Apache 2.0',
         packages=find_packages(),
         install_requires=[
