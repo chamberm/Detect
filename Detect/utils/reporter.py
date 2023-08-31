@@ -82,7 +82,7 @@ def report_steps(curve, result, method, group, metric, plot=False):
         #ROC
         ###############################################
         if curve == "ROC":
-            fpr, tpr, thresholds = roc_curve(y_true, y_scores,group)
+            fpr, tpr, thresholds = roc_curve(y_true, y_scores,pos_label=group)
             auc_score = auc(fpr, tpr)
 
             ax.plot(fpr, tpr, color='navy',linewidth=3)
@@ -93,7 +93,7 @@ def report_steps(curve, result, method, group, metric, plot=False):
         #Precision recall
         ###############################################
         else:
-            precision, recall, thresholds = precision_recall_curve(y_true, y_scores,group)
+            precision, recall, thresholds = precision_recall_curve(y_true, y_scores,pos_label=group)
             f1score = 2 * (precision * recall) / (precision + recall)
             auc_score = auc(recall, precision)
 

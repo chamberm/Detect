@@ -48,7 +48,7 @@ def plot_profile(df_data, df_demog, tract_profile, metric, plot_controls, plot_p
             filter_PAT = [col for col in PATIENTS if col.startswith(tract_profile+'_'+hemi)]
             noOfFeatures = len(filter_HC)
             mean_PAT = np.mean(PATIENTS[filter_PAT])
-            mean_HC = np.mean(HC[filter_HC])
+            mean_HC = np.mean(HC[filter_HC], axis=0)
             std_PAT = stats.sem(PATIENTS[filter_PAT])
             std_HC = np.std(HC[filter_HC])*1.65
 
@@ -76,6 +76,7 @@ def plot_profile(df_data, df_demog, tract_profile, metric, plot_controls, plot_p
 
             #Controls only group mean profiles
             if plot_controls:
+                pass
                 ax[idx,0].plot(gaussian_filter1d(mean_HC,sigma=sigma),color='xkcd:purply',label='Controls',linewidth=4)
                 ax[idx,0].fill_between(range(len(mean_HC)),gaussian_filter1d(mean_HC-std_HC, sigma=sigma), 
                                      gaussian_filter1d(mean_HC+std_HC, sigma=sigma), 
