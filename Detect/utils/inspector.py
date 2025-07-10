@@ -50,7 +50,8 @@ def run(subject, df_data, df_demog, regress, tracts, hemi, metric):
             X_train, X_test = model_prep.regress_confound(X_train_split, X_test_split, df_demog)
         else:
             st.error("No age or sex information found. Skipping regression step.")
-        
+            X_train = X_train_split
+            X_test = X_test_split
     
 
     #6 Run 
